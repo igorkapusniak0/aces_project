@@ -1,0 +1,13 @@
+export const Points = Object.freeze({
+OBJECTPASSED: 10,
+TOOCLOSE: -10,
+NOSIGNAL: -5,
+SIGNAL: 5,
+NOSIGNAL: -5,
+FAILEDSTOP: -10,
+STOPPED: 10,
+HITCURB: -10,
+WRONGLANE: -1,
+SPEEDING: -1
+});
+

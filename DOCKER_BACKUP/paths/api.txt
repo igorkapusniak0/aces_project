@@ -1,0 +1,32 @@
+ADD EVENT
+wget --method=POST -header="Content-Type: application/json" --body-data='{"user_id":"25","event_type":"SPEEDGT"}' http://192.168.178.181:3000/event/add
+
+REGISTER USER
+wget --method=POST --header="Content-Type: application/json" --body-data='{"name":"John", "email":"john@example.com", "password":"secure123"}' http://192.168.178.181:3000/users/register
+
+LOGIN
+wget --method=POST --header="Content-Type: application/json" --body-data='{"email":"john@example.com", "password":"secure1231"}' http://192.168.178.181:3000/users/login
+
+GLOBAL LEADERBOARD
+wget -qO - "http://192.168.178.181:3000/users/getGlobalLeaderboard?limit=10" | jq
+
+EVENTS FOR USER
+wget -qO - "http://192.168.178.181:3000/users/getUserEvents?user_id=20" | jq
+
+SET USER LOCATION
+wget --method=PUT --header="Content-Type: application/json" --body-data='{"user_id":"20","location":"{12,32}"}' http://192.168.178.181:3000/users/setUserLocation
+
+AMOUNT OF POINTS USER EARNED WITHIN THE LAST 7 DAYS
+wget -qO - "http://192.168.178.181:3000/users/weekPoints?user_id=20" | jq
+
+ALL EVENTS OF A USER WITHIN THE LAST 7 DAYS
+wget -qO - "http://192.168.178.181:3000/users/weekReport?user_id=20" | jq
+
+USER POSITION IN GLOBAL LEADERBOARD
+wget -qO - "http://192.168.178.181:3000/users/position?user_id=20" | jq
+
+GET ALL USERS THEIR POINTS AND LOCATION WITHIN X DISTANCE TO USER
+wget -qO - "http://192.168.178.181:3000/users/getAllLocal?user_id=20&range=100" | jq
+
+GET LEADERBOARD WITH USERS WITHIN X DISTANCE OF USER
+wget -qO - "http://192.168.178.181:3000/users/getLocalLeaderboard?user_id=20&range=100&limit=5" | jq

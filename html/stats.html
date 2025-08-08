@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Need For No Speed - My Stats</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="jlr.png">
+</head>
+<body onload="loadStats()" class="bg-light">
+
+  <div id="navbar"></div>
+
+  <main class="container my-5">
+    <h1 class="mb-4 text-center" style="color: #ea9b1a;">My Stats</h1>
+
+    <div id="stats" class="mb-4">
+      <!-- Stats Loading -->
+      <div class="text-center text-muted">Loading your events...</div>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="app.js"></script>
+  <!-- Script To Load Stats-->
+<script>
+  async function loadStats() {
+    const userId = getUserId();
+    if (!userId) {
+      document.getElementById('stats').innerHTML = '<p class="text-danger text-center">No user logged in.</p>';
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE}/users/getUserEvents?user_id=${userId}`);
+      if (!response.ok) {
+        document.getElementById('stats').innerHTML = '<p class="text-danger text-center">Failed to load events.</p>';
+        return;
+      }
+
+      const data = await response.json();
+      const events = data.data || [];
+
+      if (events.length === 0) {
+        document.getElementById('stats').innerHTML = '<p class="text-center">No events recorded yet.</p>';
+        return;
+      }
+
+      const statsHtml = events.map(e => {
+  // Add "+" sign if points are positive
+  const points = e.points_change > 0 ? `+${e.points_change}` : e.points_change;
+
+  return `
+    <div class="card shadow-sm border-0 mb-3">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="mb-1" style="color: #ea9b1a;">${e.event_type}</h5>
+          <small class="text-muted">${new Date(e.timestamp).toLocaleString()}</small>
+        </div>
+        <span class="badge ${e.points_change > 0 ? 'bg-success' : 'bg-danger'} p-2 fs-6">
+          ${points} pts
+        </span>
+      </div>
+    </div>
+  `;
+}).join('');
+
+
+      document.getElementById('stats').innerHTML = statsHtml;
+
+    } catch (error) {
+      console.error('Stats error:', error);
+      document.getElementById('stats').innerHTML = '<p class="text-danger text-center">Error loading events.</p>';
+    }
+  }
+
+  fetch('navbar.html')
+    .then(res => res.text())
+    .then(data => document.getElementById('navbar').innerHTML = data);
+
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => document.getElementById('footer').innerHTML = data);
+</script>
+
+</body>
+</html>

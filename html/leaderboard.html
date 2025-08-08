@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Need For No Speed - Leaderboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="jlr.png">
+</head>
+
+<body class="bg-light">
+
+  <div id="navbar"></div>
+
+  <!-- Leaderboard Table -->
+  <div class="container my-5">
+    <h1 class="mb-4 text-center" style="color: #ea9b1a;">Global Leaderboard</h1>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered text-center">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Name</th>
+            <th scope="col">Score</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load navbar and footer
+      fetch('navbar.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('navbar').innerHTML = data);
+
+      fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer').innerHTML = data);
+
+      // Optional logout button setup
+      const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+      if (confirmLogoutBtn) {
+        confirmLogoutBtn.addEventListener('click', () => {
+          logout(); // This should be defined in app.js
+        });
+      }
+
+     setInterval(async () => {
+        await loadLeaderboard();
+        await addCurrentRank();
+      },1000);
+    });
+  </script>
+</body>
+</html>

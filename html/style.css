@@ -1,0 +1,29 @@
+:root {
+  --jlr-gold: #ea9b1a;
+  --lr-green: #016452;
+  --bg-light: #f8f9fa;
+  --text-dark: #212529;
+}
+
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: "Arial", sans-serif;
+}
+.navbar, .footer {
+  background-color: var(--lr-green);
+}
+.btn-primary {
+  background-color: var(--jlr-gold);
+  border-color: var(--jlr-gold);
+}
+.btn-primary:hover {
+  background-color: darken(var(--jlr-gold), 10%);
+}
+.table thead {
+  background-color: var(--lr-green);
+  color: white;
+}
+h1, h2, h3 {
+  font-family: "Gotham", "Arial", sans-serif;
+}
