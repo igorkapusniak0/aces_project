@@ -11,7 +11,7 @@
     width: 700px;
     height: 599px;
     margin: auto;
-    border: 1px solid #ccc; /* optional */
+    border: 1px solid #ccc; 
   }
 
   #map-image {
@@ -63,27 +63,27 @@
     .then(res => res.text())
     .then(data => document.getElementById('footer').innerHTML = data);
 
-  // Store user_id
-  const user_id = getUserId(); // Or however you're retrieving it
 
-  // Marker container
+  const user_id = getUserId(); 
+
+
   const mapContainer = document.getElementById("map-container");
 
-  // Function to clear existing markers
+
   function clearMarkers() {
     const existing = mapContainer.querySelectorAll(".map-marker");
     existing.forEach(el => el.remove());
   }
 
 function addMarker(x, y, name = '', points = 0) {
-  // Marker circle
+
   const marker = document.createElement("div");
   marker.className = "map-marker";
   marker.style.left = `${x}px`;
   marker.style.top = `${y}px`;
   marker.title = name;
 
-  // Points info box
+
   const pointsBox = document.createElement("div");
   pointsBox.className = "points-box";  // <-- add this line
   pointsBox.textContent = `Points: ${points}`;
@@ -98,7 +98,7 @@ function addMarker(x, y, name = '', points = 0) {
   pointsBox.style.fontSize = "10px";
   pointsBox.style.pointerEvents = "none";
 
-  // Append both
+
   mapContainer.appendChild(marker);
   mapContainer.appendChild(pointsBox);
 }
@@ -152,3 +152,4 @@ function clearMarkers() {
  </script>
 </body>
 </html>
+
