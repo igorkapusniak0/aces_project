@@ -2,36 +2,30 @@ import serial
 import uinput
 import time
 
-# Serial config
 SERIAL_PORT = '/dev/ttyACM0'
 BAUD_RATE = 9600
 
-# Axis range for joystick
 AXIS_MIN = 0
 AXIS_MAX = 255
 
-# Create uinput device with needed events
 device = uinput.Device([
-    # Analog sticks (axes)
-    uinput.ABS_X + (AXIS_MIN, AXIS_MAX, 0, 0),  # Left stick X
-    uinput.ABS_Y + (AXIS_MIN, AXIS_MAX, 0, 0),  # Left stick Y
-    uinput.ABS_Z + (AXIS_MIN, AXIS_MAX, 0, 0),  # Trigger or throttle
-    uinput.ABS_RZ + (AXIS_MIN, AXIS_MAX, 0, 0), # Right stick Y (optional)
+    uinput.ABS_X + (AXIS_MIN, AXIS_MAX, 0, 0), 
+    uinput.ABS_Y + (AXIS_MIN, AXIS_MAX, 0, 0),  
+    uinput.ABS_Z + (AXIS_MIN, AXIS_MAX, 0, 0),  
+    uinput.ABS_RZ + (AXIS_MIN, AXIS_MAX, 0, 0),
 
-    # Buttons (common gamepad layout)
-    uinput.BTN_SOUTH,  # A
-    uinput.BTN_EAST,   # B
-    uinput.BTN_NORTH,  # X
-    uinput.BTN_WEST,   # Y
-    uinput.BTN_TL,     # LB
-    uinput.BTN_TR,     # RB
-    uinput.BTN_SELECT, # Back
-    uinput.BTN_START,  # Start
-    uinput.BTN_THUMBL, # Left stick click
-    uinput.BTN_THUMBR, # Right stick click
+    uinput.BTN_SOUTH,  
+    uinput.BTN_EAST,   
+    uinput.BTN_NORTH,  
+    uinput.BTN_WEST,   
+    uinput.BTN_TL,     
+    uinput.BTN_TR,     
+    uinput.BTN_SELECT, 
+    uinput.BTN_START,  
+    uinput.BTN_THUMBL, 
+    uinput.BTN_THUMBR, 
 ])
 
-# Keep track of indicator state
 indicator_state = {
     "left": False,
     "right": False,
@@ -42,7 +36,7 @@ def handle_input(address, value):
     address = int(address)
     val = int(value)
 
-    if address == 0:  # Left indicator
+    if address == 0: 
         if val == 1 and not indicator_state["left"]:
             device.emit(uinput.BTN_TL, 1)
             indicator_state["left"] = True
@@ -50,7 +44,7 @@ def handle_input(address, value):
             device.emit(uinput.BTN_TL, 0)
             indicator_state["left"] = False
 
-    elif address == 1:  # Right indicator
+    elif address == 1:
         if val == 1 and not indicator_state["right"]:
             device.emit(uinput.BTN_TR, 1)
             indicator_state["right"] = True
@@ -58,16 +52,16 @@ def handle_input(address, value):
             device.emit(uinput.BTN_TR, 0)
             indicator_state["right"] = False
 
-    elif address == 2:  # Steering wheel
-        # Map 0-1023 to 0-255
+    elif address == 2:
+    
         axis_val = max(AXIS_MIN, min(AXIS_MAX, int(val * 255 / 1023)))
         device.emit(uinput.ABS_X, axis_val, syn=False)
 
-    elif address == 3:  # Speeds
+    elif address == 3:  
         axis_val = max(AXIS_MIN, min(AXIS_MAX, int(val * 255 / 1023)))
         device.emit(uinput.ABS_Z, axis_val)
 
-    elif address == 4:  # Right indicator
+    elif address == 4:  
         if val == 1 and not indicator_state["brake"]:
             device.emit(uinput.BTN_SELECT, 1)
             indicator_state["brake"] = True
