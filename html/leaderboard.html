@@ -35,7 +35,6 @@
   <script src="app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      // Load navbar and footer
       fetch('navbar.html')
         .then(res => res.text())
         .then(data => document.getElementById('navbar').innerHTML = data);
@@ -44,11 +43,11 @@
         .then(res => res.text())
         .then(data => document.getElementById('footer').innerHTML = data);
 
-      // Optional logout button setup
+
       const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
       if (confirmLogoutBtn) {
         confirmLogoutBtn.addEventListener('click', () => {
-          logout(); // This should be defined in app.js
+          logout(); 
         });
       }
 
@@ -60,3 +59,4 @@
   </script>
 </body>
 </html>
+
